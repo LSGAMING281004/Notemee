@@ -1,0 +1,25 @@
+.dashboard-layout {
+    display: flex;
+    min-height: 100vh;
+    background-color: #000;
+}
+
+.dashboard-main {
+    flex: 1;
+    margin-left: 260px;
+    /* Width of sidebar */
+    padding: 2rem;
+    color: #fff;
+    min-height: 100vh;
+}
+
+@media (max-width: 768px) {
+    .dashboard-layout {
+        flex-direction: column;
+    }
+
+    .dashboard-main {
+        margin-left: 0;
+        padding: 1rem;
+    }
+}

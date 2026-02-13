@@ -1,0 +1,164 @@
+.notes-list-premium {
+    width: 100%;
+}
+
+.page-header {
+    margin-bottom: 2.5rem;
+}
+
+.header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    background: #111;
+    border: 1px solid #333;
+    padding: 0.6rem 1rem;
+    border-radius: 8px;
+    width: 300px;
+    transition: border-color 0.3s;
+}
+
+.search-bar:focus-within {
+    border-color: #4a90e2;
+}
+
+.search-icon {
+    margin-right: 0.8rem;
+    opacity: 0.5;
+}
+
+.search-bar input {
+    background: transparent;
+    border: none;
+    color: #fff;
+    outline: none;
+    width: 100%;
+    font-size: 0.95rem;
+}
+
+.page-header h1 {
+    font-size: 2.2rem;
+    margin: 0;
+}
+
+.page-header p {
+    color: #888;
+}
+
+.notes-grid-premium {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.premium-note-card {
+    background: #111;
+    border: 1px solid #222;
+    border-radius: 12px;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.premium-note-card:hover {
+    border-color: #444;
+    transform: translateY(-4px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+}
+
+.card-badge {
+    margin-bottom: 1rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.public-label {
+    background: #4a90e21a;
+    color: #4a90e2;
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+}
+
+.private-label {
+    background: #333;
+    color: #888;
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+}
+
+.card-title {
+    margin-bottom: 0.8rem;
+    color: #fff;
+    font-size: 1.25rem;
+}
+
+.card-excerpt {
+    color: #aaa;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    flex: 1;
+    margin-bottom: 1.5rem;
+}
+
+.card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #222;
+    padding-top: 1rem;
+    font-size: 0.85rem;
+    color: #666;
+}
+
+.loading-state {
+    text-align: center;
+    padding: 4rem;
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid #222;
+    border-top-color: #4a90e2;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 1rem;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.empty-dashboard {
+    text-align: center;
+    padding: 6rem 2rem;
+    background: #0a0a0a;
+    border-radius: 16px;
+    border: 1px dashed #333;
+}
+
+.empty-icon {
+    font-size: 4rem;
+    margin-bottom: 1.5rem;
+}
+
+.primary-btn {
+    margin-top: 1.5rem;
+    background: #4a90e2;
+    color: #fff;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+}
