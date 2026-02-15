@@ -65,49 +65,134 @@
 }
 
 .nav-item .icon {
-    margin-right: 1rem;
-    font-size: 1.2rem;
+    margin-right: 0.8rem;
+    min-width: 20px;
 }
 
 .sidebar-footer {
-    padding: 1.5rem;
+    padding: 1rem;
     border-top: 1px solid #111;
+    margin-top: auto;
 }
 
-.logout-btn {
-    width: 100%;
+.user-profile-section {
     display: flex;
     align-items: center;
-    padding: 0.8rem 1rem;
-    background: transparent;
+    justify-content: space-between;
+    background: #111;
+    padding: 0.8rem;
+    border-radius: 12px;
     border: 1px solid #222;
-    color: #ef4444;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: 600;
-    transition: all 0.3s ease;
 }
 
-.logout-btn:hover {
-    background: #ef44441a;
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.sidebar-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid #333;
+}
+
+.user-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.user-name {
+    color: #fff;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.user-status {
+    color: #4CAF50;
+    font-size: 0.75rem;
+}
+
+.logout-icon-btn {
+    background: transparent;
+    border: none;
+    color: #666;
+    cursor: pointer;
+    padding: 0.4rem;
+    border-radius: 6px;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logout-icon-btn:hover {
+    background: #222;
+    color: #ef4444;
 }
 
 @media (max-width: 768px) {
     .sidebar {
         width: 100%;
-        height: auto;
-        position: relative;
+        height: 64px;
+        position: fixed;
+        top: auto;
+        bottom: 0;
+        left: 0;
         border-right: none;
-        border-bottom: 1px solid #222;
+        border-top: 1px solid #222;
+        flex-direction: row;
+        padding: 0 1rem;
+        z-index: 1000;
+        background: rgba(10, 10, 10, 0.95);
+        backdrop-filter: blur(10px);
+    }
+
+    .sidebar-header,
+    .sidebar-footer {
+        display: none;
     }
 
     .sidebar-nav {
         flex-direction: row;
-        overflow-x: auto;
-        padding: 0.5rem;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0;
+        width: 100%;
+        gap: 0;
     }
 
     .nav-item {
-        white-space: nowrap;
+        flex-direction: column;
+        padding: 0.5rem;
+        font-size: 0.65rem;
+        gap: 4px;
+        border-radius: 0;
+        flex: 1;
+        justify-content: center;
+    }
+
+    .nav-item .icon {
+        margin-right: 0;
+        width: 20px;
+        height: 20px;
+    }
+
+    .nav-item.active {
+        background: transparent;
+        color: #4a90e2;
+        position: relative;
+    }
+
+    .nav-item.active::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        width: 40%;
+        height: 2px;
+        background: #4a90e2;
+        border-radius: 0 0 4px 4px;
     }
 }

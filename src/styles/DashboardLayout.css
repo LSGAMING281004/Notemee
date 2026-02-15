@@ -1,25 +1,94 @@
 .dashboard-layout {
     display: flex;
     min-height: 100vh;
-    background-color: #000;
+    background-color: #0a0a0a;
+    color: #fff;
+}
+
+.main-content-wrapper {
+    flex: 1;
+    margin-left: 260px;
+    /* Sidebar width */
+    display: flex;
+    flex-direction: column;
+}
+
+.dashboard-top-header {
+    height: 60px;
+    background: #0a0a0a;
+    border-bottom: 1px solid #1a1a1a;
+    position: sticky;
+    top: 0;
+    z-index: 99;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 0 2rem;
 }
 
 .dashboard-main {
     flex: 1;
-    margin-left: 260px;
-    /* Width of sidebar */
-    padding: 2rem;
+    /* padding: 2rem; */
+    /* Padding is handled by individual pages */
+}
+
+/* Header Actions */
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.notification-wrapper {
+    position: relative;
+}
+
+.icon-btn-header {
+    background: transparent;
+    border: none;
+    color: #ccc;
+    cursor: pointer;
+    position: relative;
+    padding: 8px;
+    border-radius: 50%;
+    transition: background 0.2s, color 0.2s;
+}
+
+.icon-btn-header:hover {
+    background: #222;
     color: #fff;
-    min-height: 100vh;
+}
+
+.badge {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    background: #ef4444;
+    color: white;
+    font-size: 0.7rem;
+    font-weight: bold;
+    min-width: 16px;
+    height: 16px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #0a0a0a;
 }
 
 @media (max-width: 768px) {
-    .dashboard-layout {
-        flex-direction: column;
+    .main-content-wrapper {
+        margin-left: 0;
+        /* Remove top margin as header corresponds to page content, not overlapped by sidebar anymore */
+        margin-top: 0;
+        padding-bottom: 80px;
+        /* Space for bottom nav */
     }
 
-    .dashboard-main {
-        margin-left: 0;
-        padding: 1rem;
+    .dashboard-top-header {
+        position: sticky;
+        top: 0;
+        background: rgba(10, 10, 10, 0.95);
+        backdrop-filter: blur(5px);
     }
 }

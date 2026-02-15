@@ -1,0 +1,114 @@
+.user-card {
+    background: #111;
+    border: 1px solid #222;
+    border-radius: 12px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    transition: transform 0.2s, border-color 0.2s;
+}
+
+.user-card:hover {
+    transform: translateY(-2px);
+    border-color: #333;
+}
+
+.user-card-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.user-card-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #222;
+}
+
+.user-card-info {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.user-card-info h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: #fff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.user-card-info p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: #888;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.user-card-actions {
+    display: flex;
+    gap: 0.8rem;
+    margin-top: auto;
+}
+
+.action-btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.6rem;
+    border-radius: 8px;
+    border: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.action-btn.follow {
+    background: #4a90e2;
+    color: #fff;
+}
+
+.action-btn.follow:hover {
+    background: #357abd;
+}
+
+.action-btn.following {
+    background: #222;
+    color: #fff;
+    border: 1px solid #333;
+}
+
+.action-btn.following:hover {
+    background: #ef4444;
+    border-color: #ef4444;
+}
+
+.action-btn.following:hover span {
+    display: none;
+}
+
+.action-btn.following:hover::after {
+    content: 'Unfollow';
+}
+
+.action-btn.message {
+    flex: 0 0 auto;
+    width: 40px;
+    background: #222;
+    color: #fff;
+    padding: 0;
+}
+
+.action-btn.message:hover {
+    background: #333;
+}

@@ -1,17 +1,32 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { db } from '../firebase';
-import { collection, query, where, getDocs } from 'firebase/firestore';
+import { collection, query, where, getDocs, deleteDoc, doc } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
+import { useToast } from '../context/ToastContext';
 import '../styles/NotesList.css';
 
 const NotesList = () => {
     const { user } = useAuth();
     const navigate = useNavigate();
+    const { showToast } = useToast();
     const [notes, setNotes] = useState([]);
     const [loading, setLoading] = useState(true);
 
     const [searchTerm, setSearchTerm] = useState('');
+
+    const handleDelete = async (noteId) => {
+        if (window.confirm('Are you sure you want to delete this note? This action cannot be undone.')) {
+            try {
+                await deleteDoc(doc(db, 'notes', noteId));
+                setNotes(prevNotes => prevNotes.filter(note => note.id !== noteId));
+                showToast('Note deleted successfully', 'success');
+            } catch (error) {
+                console.error('Error deleting note:', error);
+                showToast('Failed to delete note', 'error');
+            }
+        }
+    };
 
     useEffect(() => {
         const fetchNotes = async () => {
@@ -97,8 +112,20 @@ const NotesList = () => {
                 <div className="notes-grid-premium">
                     {filteredNotes.map((note) => (
                         <div key={note.id} className="premium-note-card">
-                            <div className="card-badge">
-                                {note.isPublic ? <span className="public-label">Public / Blog</span> : <span className="private-label">Private</span>}
+                            <div className="card-header">
+                                <div className="card-badge">
+                                    {note.isPublic ? <span className="public-label">Public / Blog</span> : <span className="private-label">Private</span>}
+                                </div>
+                                <button
+                                    className="delete-btn"
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        handleDelete(note.id);
+                                    }}
+                                    title="Delete Note"
+                                >
+                                    🗑️
+                                </button>
                             </div>
                             <h3 className="card-title">{note.title}</h3>
                             <p className="card-excerpt">{note.content.substring(0, 150)}{note.content.length > 150 ? '...' : ''}</p>

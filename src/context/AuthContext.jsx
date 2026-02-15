@@ -29,12 +29,32 @@ export const AuthProvider = ({ children }) => {
     const signInWithGoogle = async () => {
         try {
             const result = await signInWithPopup(auth, googleProvider);
-            const additionalUserInfo = getAdditionalUserInfo(result);
+            const user = result.user;
 
-            if (additionalUserInfo?.isNewUser) {
-                const user = result.user;
+            // Create/Update user document in Firestore
+            const { doc, setDoc, getDoc, serverTimestamp } = await import('firebase/firestore');
+            const { db } = await import('../firebase');
+
+            const userRef = doc(db, 'users', user.uid);
+            const userSnap = await getDoc(userRef);
+
+            if (!userSnap.exists()) {
+                await setDoc(userRef, {
+                    uid: user.uid,
+                    displayName: user.displayName,
+                    email: user.email,
+                    photoURL: user.photoURL,
+                    createdAt: serverTimestamp(),
+                    bio: '',
+                    followers: [],
+                    following: []
+                });
                 await sendWelcomeEmail(user.email, user.displayName);
+            } else {
+                // Optional: Update detailed fields if needed on login, for now keep static to avoid overwriting custom bio
+                // contrasting to "google default" request: user might want to keep custom name/photo
             }
+
         } catch (error) {
             console.error('Error signing in with Google:', error);
             throw error;
@@ -54,7 +74,14 @@ export const AuthProvider = ({ children }) => {
         user,
         loading,
         signInWithGoogle,
-        logout
+        logout,
+        updateUserProfile: async (data) => {
+            if (auth.currentUser) {
+                const { updateProfile } = await import('firebase/auth');
+                await updateProfile(auth.currentUser, data);
+                setUser({ ...auth.currentUser, ...data });
+            }
+        }
     };
 
     return (

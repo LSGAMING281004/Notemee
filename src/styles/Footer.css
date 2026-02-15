@@ -1,7 +1,7 @@
 .footer {
     background: #1a1a1a;
     color: #fff;
-    padding: 3rem 1rem 1rem;
+    padding: 1.5rem 1rem;
     margin-top: auto;
     border-top: 1px solid #333;
 }
@@ -11,25 +11,37 @@
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
+    align-items: center;
     flex-wrap: wrap;
-    gap: 2rem;
-    margin-bottom: 2rem;
+    gap: 1rem;
 }
 
 .footer-section h3 {
-    margin-bottom: 1rem;
+    margin: 0;
+    font-size: 1.2rem;
     color: #4a90e2;
+    display: inline-block;
+    margin-right: 1rem;
+}
+
+.footer-section p {
+    display: inline-block;
+    color: #888;
+    margin: 0;
+    font-size: 0.9rem;
 }
 
 .footer-links {
     display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
+    flex-direction: row;
+    gap: 1.5rem;
+    align-items: center;
 }
 
 .footer-links a {
     color: #ccc;
     text-decoration: none;
+    font-size: 0.9rem;
     transition: color 0.3s;
 }
 
@@ -38,16 +50,26 @@
 }
 
 .footer-bottom {
-    text-align: center;
-    padding-top: 2rem;
-    border-top: 1px solid #333;
-    font-size: 0.9rem;
-    color: #777;
+    display: none;
+    /* Merged into main content or hidden for compactness */
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
     .footer-content {
         flex-direction: column;
         text-align: center;
+        gap: 1.5rem;
+    }
+
+    .footer-links {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1rem;
+    }
+
+    .footer-section h3,
+    .footer-section p {
+        display: block;
+        margin-bottom: 0.5rem;
     }
 }

@@ -1,6 +1,8 @@
+import { Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { ToastProvider } from './context/ToastContext';
+import Loading from './components/Loading';
 import Login from './components/Login';
 import Home from './components/Home';
 import NotesList from './components/NotesList';
@@ -11,6 +13,9 @@ import PrivacyPolicy from './components/PrivacyPolicy';
 import Terms from './components/Terms';
 import Blog from './components/Blog';
 import Article from './components/Article';
+import Profile from './components/Profile';
+import Community from './components/Community';
+import Chat from './components/Chat';
 import DashboardLayout from './components/DashboardLayout';
 import './App.css';
 
@@ -55,6 +60,30 @@ function AppRoutes() {
                 }
             />
             <Route
+                path="/profile"
+                element={
+                    <ProtectedRoute>
+                        <Profile />
+                    </ProtectedRoute>
+                }
+            />
+            <Route
+                path="/community"
+                element={
+                    <ProtectedRoute>
+                        <Community />
+                    </ProtectedRoute>
+                }
+            />
+            <Route
+                path="/chat"
+                element={
+                    <ProtectedRoute>
+                        <Chat />
+                    </ProtectedRoute>
+                }
+            />
+            <Route
                 path="/notes"
                 element={
                     <ProtectedRoute>
@@ -71,7 +100,9 @@ function App() {
         <Router>
             <ToastProvider>
                 <AuthProvider>
-                    <AppRoutes />
+                    <Suspense fallback={<Loading fullScreen={true} />}>
+                        <AppRoutes />
+                    </Suspense>
                 </AuthProvider>
             </ToastProvider>
         </Router>

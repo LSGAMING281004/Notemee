@@ -111,6 +111,26 @@
     overflow: hidden;
 }
 
+.blog-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+}
+
+.blog-stats {
+    display: flex;
+    gap: 1.2rem;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.blog-stats span {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
 .read-more {
     color: #4a90e2;
     font-weight: 600;

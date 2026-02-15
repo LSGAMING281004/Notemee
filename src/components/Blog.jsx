@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { db } from '../firebase';
 import { collection, query, where, getDocs, orderBy } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
+import { Eye, ThumbsUp, ThumbsDown, MessageSquare } from 'lucide-react';
 import Footer from './Footer';
 import '../styles/Blog.css';
 
@@ -44,7 +45,14 @@ const Blog = () => {
 
     const formatDate = (timestamp) => {
         if (!timestamp) return '';
-        return timestamp.toDate().toLocaleDateString('en-US', {
+        if (typeof timestamp.toDate === 'function') {
+            return timestamp.toDate().toLocaleDateString('en-US', {
+                month: 'long',
+                day: 'numeric',
+                year: 'numeric'
+            });
+        }
+        return new Date(timestamp).toLocaleDateString('en-US', {
             month: 'long',
             day: 'numeric',
             year: 'numeric'
@@ -87,7 +95,15 @@ const Blog = () => {
                                 <p className="blog-excerpt">
                                     {post.content.substring(0, 200)}...
                                 </p>
-                                <span className="read-more">Read full article →</span>
+                                <div className="blog-footer">
+                                    <div className="blog-stats">
+                                        <span title="Views"><Eye size={16} /> {post.views || 0}</span>
+                                        <span title="Likes"><ThumbsUp size={16} /> {post.likes?.length || 0}</span>
+                                        <span title="Dislikes"><ThumbsDown size={16} /> {post.dislikes?.length || 0}</span>
+                                        <span title="Comments"><MessageSquare size={16} /> {post.commentCount || 0}</span>
+                                    </div>
+                                    <span className="read-more">Read full article →</span>
+                                </div>
                             </article>
                         ))}
                     </div>
