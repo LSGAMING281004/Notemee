@@ -184,3 +184,33 @@
         padding-right: 2rem;
     }
 }
+
+@media (max-width: 480px) {
+    .profile-page {
+        padding: 1rem;
+    }
+
+    .profile-header {
+        margin-bottom: 2rem;
+    }
+
+    .profile-header h1 {
+        font-size: 1.8rem;
+    }
+
+    .profile-card {
+        padding: 1.5rem;
+        gap: 2rem;
+    }
+
+    .avatar-wrapper {
+        width: 90px;
+        height: 90px;
+    }
+
+    .form-group input,
+    .form-group textarea {
+        padding: 0.7rem;
+        font-size: 0.95rem;
+    }
+}

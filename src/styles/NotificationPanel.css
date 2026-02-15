@@ -150,3 +150,30 @@
     right: 1rem;
     transform: translateY(-50%);
 }
+
+@media (max-width: 768px) {
+    .notification-panel {
+        width: calc(100vw - 2rem);
+        right: 1rem;
+        left: 1rem;
+        max-height: 70vh;
+    }
+}
+
+@media (max-width: 480px) {
+    .notification-panel {
+        width: calc(100vw - 1rem);
+        right: 0.5rem;
+        left: 0.5rem;
+        top: 55px;
+        border-radius: 10px;
+    }
+
+    .notification-item {
+        padding: 0.8rem;
+    }
+
+    .notif-details p {
+        font-size: 0.85rem;
+    }
+}

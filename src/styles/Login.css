@@ -95,3 +95,28 @@
   font-size: 0.75rem;
   color: #856404;
 }
+
+@media (max-width: 480px) {
+  .login-card {
+    padding: 40px 24px;
+    border-radius: 16px;
+  }
+
+  .login-header h1 {
+    font-size: 2.2rem;
+  }
+
+  .login-header p {
+    font-size: 1rem;
+    margin-bottom: 30px;
+  }
+
+  .google-btn {
+    padding: 12px 20px;
+    font-size: 0.95rem;
+  }
+
+  .demo-badge {
+    padding: 10px 12px;
+  }
+}

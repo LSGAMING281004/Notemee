@@ -97,7 +97,31 @@
     cursor: not-allowed;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
+    .dashboard-container {
+        padding: 0 1rem;
+    }
+
+    .welcome-text h1 {
+        font-size: 1.8rem;
+    }
+
+    .welcome-text p {
+        font-size: 1rem;
+    }
+
+    .composer-card {
+        padding: 1.5rem;
+    }
+
+    .note-input-premium {
+        font-size: 1.4rem;
+    }
+
+    .note-textarea-premium {
+        font-size: 1.05rem;
+    }
+
     .form-footer {
         flex-direction: column;
         gap: 1.5rem;
@@ -106,5 +130,43 @@
 
     .premium-submit-btn {
         width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .dashboard-container {
+        padding: 0 0.8rem;
+    }
+
+    .dashboard-header {
+        margin-bottom: 1.5rem;
+    }
+
+    .welcome-text h1 {
+        font-size: 1.5rem;
+    }
+
+    .welcome-text p {
+        font-size: 0.9rem;
+    }
+
+    .composer-card {
+        padding: 1rem;
+        border-radius: 12px;
+    }
+
+    .note-input-premium {
+        font-size: 1.2rem;
+        padding: 0.8rem 0;
+        margin-bottom: 1rem;
+    }
+
+    .note-textarea-premium {
+        font-size: 1rem;
+    }
+
+    .form-footer {
+        padding-top: 1rem;
+        margin-top: 1rem;
     }
 }

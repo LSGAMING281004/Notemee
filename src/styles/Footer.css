@@ -73,3 +73,25 @@
         margin-bottom: 0.5rem;
     }
 }
+
+@media (max-width: 480px) {
+    .footer {
+        padding: 1.2rem 0.8rem;
+    }
+
+    .footer-section h3 {
+        font-size: 1rem;
+    }
+
+    .footer-section p {
+        font-size: 0.8rem;
+    }
+
+    .footer-links a {
+        font-size: 0.8rem;
+    }
+
+    .footer-links {
+        gap: 0.8rem;
+    }
+}

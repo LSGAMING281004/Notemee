@@ -44,12 +44,81 @@
 }
 
 @media (max-width: 768px) {
+    .article-container {
+        margin: 2.5rem auto;
+        padding: 0 1.5rem;
+    }
+
+    .article-header {
+        margin-bottom: 2rem;
+    }
+
     .article-header h1 {
         font-size: 2.2rem;
     }
 
     .article-content {
         font-size: 1.1rem;
+    }
+
+    .interaction-bar {
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .social-interactions {
+        margin-top: 2.5rem;
+    }
+
+    .comment-item {
+        padding: 1rem;
+    }
+
+    .article-loading,
+    .article-not-found {
+        padding: 5rem 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .article-container {
+        margin: 1.5rem auto;
+        padding: 0 1rem;
+    }
+
+    .article-header h1 {
+        font-size: 1.8rem;
+    }
+
+    .article-meta {
+        font-size: 0.85rem;
+    }
+
+    .article-content {
+        font-size: 1rem;
+        line-height: 1.7;
+    }
+
+    .action-btn {
+        padding: 0.5rem 0.8rem;
+        font-size: 0.85rem;
+    }
+
+    .interaction-bar {
+        gap: 0.6rem;
+    }
+
+    .comments-section h3 {
+        font-size: 1.2rem;
+    }
+
+    .comment-form textarea {
+        padding: 0.8rem;
+    }
+
+    .comment-header {
+        flex-direction: column;
+        gap: 0.3rem;
     }
 }
 

@@ -100,3 +100,52 @@
 .submit-btn:hover {
     background: #357abd;
 }
+
+@media (max-width: 768px) {
+    .policy-content {
+        margin: 2.5rem auto;
+        padding: 0 1.5rem;
+    }
+
+    .policy-content h1 {
+        font-size: 2rem;
+    }
+
+    .policy-content h2 {
+        font-size: 1.4rem;
+    }
+
+    .policy-content p {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .policy-content {
+        margin: 1.5rem auto;
+        padding: 0 1rem;
+    }
+
+    .policy-content h1 {
+        font-size: 1.7rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .policy-content h2 {
+        font-size: 1.3rem;
+        margin-top: 1.5rem;
+    }
+
+    .policy-content p {
+        font-size: 0.95rem;
+    }
+
+    .contact-details {
+        padding: 1rem;
+    }
+
+    .submit-btn {
+        padding: 0.8rem;
+        font-size: 1rem;
+    }
+}

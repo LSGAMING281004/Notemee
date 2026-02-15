@@ -1,7 +1,6 @@
 .chat-container {
     display: flex;
     height: calc(100vh - 60px);
-    /* Subtract header height */
     background: #0a0a0a;
     color: #fff;
     overflow: hidden;
@@ -23,6 +22,65 @@
 .chat-header h2 {
     margin: 0;
     font-size: 1.5rem;
+}
+
+/* Tab Bar */
+.chat-tabs {
+    display: flex;
+    border-bottom: 1px solid #222;
+    background: #0d0d0d;
+}
+
+.chat-tab {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    padding: 0.75rem 0.5rem;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: #666;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.chat-tab:hover {
+    color: #aaa;
+    background: #1a1a1a;
+}
+
+.chat-tab.active {
+    color: #4a90e2;
+    border-bottom-color: #4a90e2;
+}
+
+/* Search Bar inside sidebar */
+.chat-search-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1rem;
+    background: #0a0a0a;
+    border-bottom: 1px solid #222;
+}
+
+.chat-search-icon {
+    color: #555;
+    flex-shrink: 0;
+}
+
+.chat-search-bar input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: #fff;
+    outline: none;
+    font-size: 0.9rem;
+    padding: 0.4rem 0;
 }
 
 .conversations-list {
@@ -72,6 +130,50 @@
     max-width: 200px;
 }
 
+/* User list items (Following + Search tabs) */
+.user-list-item {
+    display: flex;
+    align-items: center;
+    padding: 0.9rem 1rem;
+    cursor: pointer;
+    border-bottom: 1px solid #1a1a1a;
+    transition: background 0.2s;
+}
+
+.user-list-item:hover {
+    background: #1a1a1a;
+}
+
+.user-list-item img {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    margin-right: 0.8rem;
+    object-fit: cover;
+    border: 2px solid #222;
+}
+
+.user-list-info {
+    flex: 1;
+    overflow: hidden;
+}
+
+.user-list-info h4 {
+    margin: 0;
+    font-size: 0.95rem;
+    color: #fff;
+}
+
+.user-list-info p {
+    margin: 0.2rem 0 0 0;
+    font-size: 0.8rem;
+    color: #666;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Empty states */
 .empty-state-chat {
     padding: 2rem;
     text-align: center;
@@ -92,6 +194,23 @@
     color: #666;
 }
 
+.empty-messages {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    color: #444;
+    text-align: center;
+    padding: 2rem;
+}
+
+.empty-messages p {
+    margin-top: 0.8rem;
+    color: #555;
+    font-size: 0.95rem;
+}
+
 /* Main Chat Area */
 .chat-main {
     flex: 1;
@@ -108,6 +227,15 @@
     justify-content: center;
     height: 100%;
     color: #444;
+}
+
+.no-chat-selected h3 {
+    margin: 1rem 0 0.5rem;
+}
+
+.no-chat-selected p {
+    color: #555;
+    font-size: 0.95rem;
 }
 
 .active-chat-header {
@@ -226,9 +354,10 @@
     display: none;
 }
 
+/* ===== MOBILE RESPONSIVE ===== */
+
 @media (max-width: 768px) {
     .chat-container {
-        /* On mobile: 100vh - Header(60px) - BottomNav(64px) */
         height: calc(100vh - 60px - 64px);
     }
 
@@ -246,7 +375,6 @@
         background: #0a0a0a;
         z-index: 10;
         padding-bottom: 0;
-        /* Chat internal padding handled by messages-area */
     }
 
     .mobile-hidden {
@@ -267,5 +395,106 @@
         color: #fff;
         padding: 0.5rem;
         cursor: pointer;
+    }
+
+    .message-bubble {
+        max-width: 85%;
+    }
+
+    .messages-area {
+        padding: 1rem;
+    }
+
+    .conversation-item img {
+        width: 42px;
+        height: 42px;
+    }
+
+    .conversation-info p {
+        max-width: 160px;
+    }
+
+    .message-input-area {
+        padding: 0.8rem;
+        gap: 0.6rem;
+    }
+
+    .chat-tab span {
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .chat-header {
+        padding: 1rem;
+    }
+
+    .chat-header h2 {
+        font-size: 1.2rem;
+    }
+
+    .chat-tab {
+        padding: 0.6rem 0.3rem;
+        font-size: 0.75rem;
+        gap: 0.3rem;
+    }
+
+    .conversation-item {
+        padding: 0.8rem;
+    }
+
+    .conversation-item img {
+        width: 38px;
+        height: 38px;
+        margin-right: 0.8rem;
+    }
+
+    .conversation-info h4 {
+        font-size: 0.9rem;
+    }
+
+    .conversation-info p {
+        max-width: 140px;
+        font-size: 0.8rem;
+    }
+
+    .user-list-item {
+        padding: 0.7rem 0.8rem;
+    }
+
+    .user-list-item img {
+        width: 38px;
+        height: 38px;
+        margin-right: 0.7rem;
+    }
+
+    .active-chat-header img {
+        width: 34px;
+        height: 34px;
+    }
+
+    .active-chat-header h3 {
+        font-size: 1rem;
+    }
+
+    .message-bubble {
+        max-width: 90%;
+        padding: 0.6rem 0.8rem;
+        font-size: 0.95rem;
+    }
+
+    .messages-area {
+        padding: 0.8rem;
+        gap: 0.5rem;
+    }
+
+    .message-input-area input {
+        padding: 0.7rem 0.8rem;
+        font-size: 0.9rem;
+    }
+
+    .message-input-area button {
+        width: 40px;
+        height: 40px;
     }
 }

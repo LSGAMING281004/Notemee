@@ -196,3 +196,21 @@
         border-radius: 0 0 4px 4px;
     }
 }
+
+@media (max-width: 480px) {
+    .sidebar {
+        height: 58px;
+        padding: 0 0.5rem;
+    }
+
+    .nav-item {
+        font-size: 0.6rem;
+        padding: 0.4rem;
+        gap: 2px;
+    }
+
+    .nav-item .icon {
+        width: 18px;
+        height: 18px;
+    }
+}

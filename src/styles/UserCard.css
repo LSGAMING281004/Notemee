@@ -112,3 +112,32 @@
 .action-btn.message:hover {
     background: #333;
 }
+
+@media (max-width: 480px) {
+    .user-card {
+        padding: 1.2rem;
+        gap: 1rem;
+    }
+
+    .user-card-avatar {
+        width: 48px;
+        height: 48px;
+    }
+
+    .user-card-info h3 {
+        font-size: 1rem;
+    }
+
+    .user-card-info p {
+        font-size: 0.8rem;
+    }
+
+    .action-btn {
+        font-size: 0.8rem;
+        padding: 0.5rem;
+    }
+
+    .action-btn.message {
+        width: 36px;
+    }
+}
