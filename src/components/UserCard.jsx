@@ -12,7 +12,7 @@ const UserCard = ({ user, isFollowing, onFollow, onUnfollow }) => {
 
     return (
         <div className="user-card">
-            <div className="user-card-header">
+            <div className="user-card-header" onClick={() => navigate(`/profile/${user.id || user.uid}`)} style={{ cursor: 'pointer' }}>
                 <img
                     src={user.photoURL || "https://via.placeholder.com/60"}
                     alt={user.displayName}

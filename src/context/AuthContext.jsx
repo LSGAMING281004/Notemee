@@ -81,6 +81,22 @@ export const AuthProvider = ({ children }) => {
                 await updateProfile(auth.currentUser, data);
                 setUser({ ...auth.currentUser, ...data });
             }
+        },
+        deleteAccount: async () => {
+            if (auth.currentUser) {
+                const { deleteUser } = await import('firebase/auth');
+                const { doc, deleteDoc } = await import('firebase/firestore');
+                const { db } = await import('../firebase');
+
+                const uid = auth.currentUser.uid;
+
+                // 1. Delete Firestore document
+                await deleteDoc(doc(db, 'users', uid));
+
+                // 2. Delete Firebase Auth account
+                await deleteUser(auth.currentUser);
+                setUser(null);
+            }
         }
     };
 

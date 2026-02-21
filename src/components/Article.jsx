@@ -202,7 +202,13 @@ const Article = () => {
             <main className="article-container">
                 <header className="article-header">
                     <div className="article-meta">
-                        <span className="author">By {article.authorName}</span>
+                        <span
+                            className="author clickable"
+                            onClick={() => navigate(`/profile/${article.userId}`)}
+                            style={{ cursor: 'pointer', color: '#4a90e2' }}
+                        >
+                            By {article.authorName}
+                        </span>
                         <span className="dot">•</span>
                         <span className="date">{formatDate(article.createdAt)}</span>
                     </div>

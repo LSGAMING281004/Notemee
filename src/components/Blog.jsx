@@ -87,7 +87,16 @@ const Blog = () => {
                         {posts.map((post) => (
                             <article key={post.id} className="blog-card" onClick={() => navigate(`/blog/${post.id}`)}>
                                 <div className="blog-meta">
-                                    <span className="author">By {post.authorName || 'Anonymous'}</span>
+                                    <span
+                                        className="author clickable"
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            navigate(`/profile/${post.userId}`);
+                                        }}
+                                        style={{ cursor: 'pointer', zIndex: 2 }}
+                                    >
+                                        By {post.authorName || 'Anonymous'}
+                                    </span>
                                     <span className="dot">•</span>
                                     <span className="date">{formatDate(post.createdAt)}</span>
                                 </div>

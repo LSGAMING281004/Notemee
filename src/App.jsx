@@ -14,6 +14,7 @@ import Terms from './components/Terms';
 import Blog from './components/Blog';
 import Article from './components/Article';
 import Profile from './components/Profile';
+import UserProfile from './components/UserProfile';
 import Community from './components/Community';
 import Chat from './components/Chat';
 import DashboardLayout from './components/DashboardLayout';
@@ -33,7 +34,14 @@ function AppRoutes() {
     return (
         <Routes>
             {/* Public Routes */}
-            <Route path="/" element={<LandingPage />} />
+            <Route
+                path="/"
+                element={
+                    <PublicRoute>
+                        <LandingPage />
+                    </PublicRoute>
+                }
+            />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/privacy" element={<PrivacyPolicy />} />
@@ -72,6 +80,14 @@ function AppRoutes() {
                 element={
                     <ProtectedRoute>
                         <Community />
+                    </ProtectedRoute>
+                }
+            />
+            <Route
+                path="/profile/:uid"
+                element={
+                    <ProtectedRoute>
+                        <UserProfile />
                     </ProtectedRoute>
                 }
             />
