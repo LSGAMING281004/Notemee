@@ -12,6 +12,32 @@
     border-bottom: 1px solid #222;
 }
 
+.blog-nav-left {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.back-arrow-btn {
+    background: transparent;
+    border: 1px solid #222;
+    color: #ccc;
+    cursor: pointer;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.back-arrow-btn:hover {
+    background: #1a1a1a;
+    color: #fff;
+    border-color: #333;
+}
+
 .logo-container {
     display: flex;
     align-items: center;

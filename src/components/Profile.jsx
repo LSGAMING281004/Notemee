@@ -4,11 +4,13 @@ import { db } from '../firebase';
 import { doc, getDoc, setDoc, collection, query, where, getDocs } from 'firebase/firestore';
 import { Camera, Save, User, Mail, FileText, LogOut, Trash2, Users, X } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useModal } from '../context/ModalContext';
 import '../styles/Profile.css';
 
 const Profile = () => {
     const { user, updateUserProfile, logout, deleteAccount } = useAuth();
     const navigate = useNavigate();
+    const { showConfirm, showAlert } = useModal();
     const [profileData, setProfileData] = useState({
         displayName: '',
         bio: '',
@@ -100,15 +102,26 @@ const Profile = () => {
     };
 
     const handleDeleteAccount = async () => {
-        if (window.confirm("CRITICAL: Are you sure you want to delete your account? All your data will be permanently removed. This action cannot be undone.")) {
-            try {
-                await deleteAccount();
-                navigate('/');
-            } catch (error) {
-                console.error("Error deleting account:", error);
-                alert("Failed to delete account. You may need to log in again recently to perform this action.");
+        showConfirm({
+            title: 'Delete Account',
+            message: 'CRITICAL: Are you sure you want to delete your account? All your data will be permanently removed. This action cannot be undone.\n\nYou will need to verify your identity via Google sign-in.',
+            confirmText: 'Delete Forever',
+            onConfirm: async () => {
+                try {
+                    await deleteAccount();
+                    navigate('/');
+                } catch (error) {
+                    console.error("Error deleting account:", error);
+                    if (error.code === 'auth/popup-closed-by-user') {
+                        showAlert({ title: 'Cancelled', message: 'Account deletion cancelled — you closed the verification popup.', type: 'info' });
+                    } else if (error.code === 'auth/requires-recent-login') {
+                        showAlert({ title: 'Action Needed', message: 'Please log out and log back in, then try deleting your account again.', type: 'warning' });
+                    } else {
+                        showAlert({ title: 'Error', message: 'Failed to delete account: ' + error.message, type: 'danger' });
+                    }
+                }
             }
-        }
+        });
     };
 
     const openListModal = async (title, userIds) => {

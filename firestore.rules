@@ -16,8 +16,13 @@ service cloud.firestore {
     match /users/{userId} {
       // Anyone authenticated can view profiles for search/community
       allow read: if isAuthenticated();
-      // Only the user can create/update their own profile
-      allow create, update: if isOwner(userId);
+      // Only the user can create their own profile; 
+      // Owners can update everything, but others can only update the 'followers' list
+      allow create: if isOwner(userId);
+      allow update: if isOwner(userId) || 
+                   (isAuthenticated() && 
+                    request.resource.data.diff(resource.data).affectedKeys()
+                      .hasOnly(['followers']));
     }
 
     // Notes collection

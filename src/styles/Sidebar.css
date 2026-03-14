@@ -69,6 +69,30 @@
     min-width: 20px;
 }
 
+.icon-wrapper {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sidebar-badge {
+    position: absolute;
+    top: -4px;
+    right: 4px; /* Offset since icon right margin is 0.8rem */
+    min-width: 14px;
+    height: 14px;
+    background-color: #ef4444; /* Red color */
+    border-radius: 10px;
+    border: 2px solid #0a0a0a; /* Match sidebar background to clear cutout */
+    color: white;
+    font-size: 0.55rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+}
+
 .sidebar-footer {
     padding: 1rem;
     border-top: 1px solid #111;
@@ -133,6 +157,7 @@
     color: #ef4444;
 }
 
+
 @media (max-width: 768px) {
     .sidebar {
         width: 100%;
@@ -178,6 +203,15 @@
         margin-right: 0;
         width: 20px;
         height: 20px;
+    }
+
+    .sidebar-badge {
+        right: -6px;
+        top: -6px;
+        min-width: 16px;
+        height: 16px;
+        border-width: 1px;
+        font-size: 0.6rem;
     }
 
     .nav-item.active {

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { db } from '../firebase';
 import { collection, query, where, getDocs, orderBy } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
-import { Eye, ThumbsUp, ThumbsDown, MessageSquare } from 'lucide-react';
+import { Eye, ThumbsUp, ThumbsDown, MessageSquare, ArrowLeft } from 'lucide-react';
 import Footer from './Footer';
 import '../styles/Blog.css';
 
@@ -62,9 +62,14 @@ const Blog = () => {
     return (
         <div className="blog-page">
             <nav className="blog-nav">
-                <div className="logo-container" onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
-                    <img src="/notemee_logo.png" alt="Notemee Logo" className="logo-img" />
-                    <div className="logo-text">Blog</div>
+                <div className="blog-nav-left">
+                    <button className="back-arrow-btn" onClick={() => navigate(-1)}>
+                        <ArrowLeft size={22} />
+                    </button>
+                    <div className="logo-container" onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
+                        <img src="/notemee_logo.png" alt="Notemee Logo" className="logo-img" />
+                        <div className="logo-text">Blog</div>
+                    </div>
                 </div>
                 <button className="write-btn" onClick={() => navigate('/login')}>Start Writing</button>
             </nav>

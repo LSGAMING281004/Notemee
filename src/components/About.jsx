@@ -1,10 +1,20 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { ArrowLeft } from 'lucide-react';
 import Footer from './Footer';
 import '../styles/PolicyPages.css';
 
 const About = () => {
+    const navigate = useNavigate();
+
     return (
         <div className="page-container">
+            <div className="page-back-header">
+                <button className="back-arrow-btn" onClick={() => navigate(-1)}>
+                    <ArrowLeft size={22} />
+                </button>
+                <span>About</span>
+            </div>
             <main className="policy-content">
                 <h1>About Notemee</h1>
                 <p>Notemee is a simple, elegant, and secure note-taking application designed to help you capture your thoughts, ideas, and daily reflections instantly.</p>

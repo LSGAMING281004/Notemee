@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { signInWithPopup, signOut, onAuthStateChanged, getAdditionalUserInfo } from 'firebase/auth';
-import { auth, googleProvider } from '../firebase';
+import { auth, googleProvider, rtdb } from '../firebase';
+import { ref, set, onValue, onDisconnect, serverTimestamp as rtdbServerTimestamp } from 'firebase/database';
 import { sendWelcomeEmail } from '../utils/brevo';
 
 const AuthContext = createContext();
@@ -25,6 +26,32 @@ export const AuthProvider = ({ children }) => {
 
         return () => unsubscribe();
     }, []);
+
+    // Presence system: track online/offline in Realtime Database
+    useEffect(() => {
+        if (!user) return;
+
+        const userStatusRef = ref(rtdb, `status/${user.uid}`);
+        const connectedRef = ref(rtdb, '.info/connected');
+
+        const unsubscribe = onValue(connectedRef, (snapshot) => {
+            if (snapshot.val() === true) {
+                // User is connected
+                set(userStatusRef, {
+                    state: 'online',
+                    lastSeen: rtdbServerTimestamp()
+                });
+
+                // When user disconnects, set offline
+                onDisconnect(userStatusRef).set({
+                    state: 'offline',
+                    lastSeen: rtdbServerTimestamp()
+                });
+            }
+        });
+
+        return () => unsubscribe();
+    }, [user]);
 
     const signInWithGoogle = async () => {
         try {
@@ -63,6 +90,14 @@ export const AuthProvider = ({ children }) => {
 
     const logout = async () => {
         try {
+            // Set offline before signing out
+            if (auth.currentUser) {
+                const userStatusRef = ref(rtdb, `status/${auth.currentUser.uid}`);
+                await set(userStatusRef, {
+                    state: 'offline',
+                    lastSeen: rtdbServerTimestamp()
+                });
+            }
             await signOut(auth);
         } catch (error) {
             console.error('Error signing out:', error);
@@ -84,16 +119,26 @@ export const AuthProvider = ({ children }) => {
         },
         deleteAccount: async () => {
             if (auth.currentUser) {
-                const { deleteUser } = await import('firebase/auth');
+                const { deleteUser, reauthenticateWithPopup, GoogleAuthProvider } = await import('firebase/auth');
                 const { doc, deleteDoc } = await import('firebase/firestore');
                 const { db } = await import('../firebase');
 
+                // Re-authenticate before deleting (Firebase requires recent login)
+                await reauthenticateWithPopup(auth.currentUser, new GoogleAuthProvider());
+
                 const uid = auth.currentUser.uid;
 
-                // 1. Delete Firestore document
+                // 1. Set offline in RTDB
+                const userStatusRef = ref(rtdb, `status/${uid}`);
+                await set(userStatusRef, {
+                    state: 'offline',
+                    lastSeen: rtdbServerTimestamp()
+                });
+
+                // 2. Delete Firestore document
                 await deleteDoc(doc(db, 'users', uid));
 
-                // 2. Delete Firebase Auth account
+                // 3. Delete Firebase Auth account
                 await deleteUser(auth.currentUser);
                 setUser(null);
             }

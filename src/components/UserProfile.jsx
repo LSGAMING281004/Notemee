@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { db } from '../firebase';
-import { doc, getDoc, collection, query, where, getDocs, updateDoc, arrayUnion, arrayRemove, addDoc, serverTimestamp } from 'firebase/firestore';
+import { doc, getDoc, collection, query, where, getDocs, updateDoc, arrayUnion, arrayRemove, addDoc, serverTimestamp, onSnapshot } from 'firebase/firestore';
 import { useAuth } from '../context/AuthContext';
 import { User, Mail, FileText, MessageSquare, UserPlus, UserCheck, ChevronLeft, Calendar, FileType } from 'lucide-react';
+import { useModal } from '../context/ModalContext';
 import '../styles/UserProfile.css';
 
 const UserProfile = () => {
     const { uid } = useParams();
     const { user } = useAuth();
+    const { showConfirm, showAlert } = useModal();
     const navigate = useNavigate();
 
     const [profileUser, setProfileUser] = useState(null);
@@ -18,22 +20,28 @@ const UserProfile = () => {
     const [followLoading, setFollowLoading] = useState(false);
 
     useEffect(() => {
-        const fetchProfileData = async () => {
-            if (!uid) return;
-            try {
-                setLoading(true);
-                // Fetch User Details
-                const userDoc = await getDoc(doc(db, 'users', uid));
-                if (userDoc.exists()) {
-                    const userData = userDoc.data();
-                    setProfileUser({ id: userDoc.id, ...userData });
+        if (!uid) return;
 
-                    if (user) {
-                        setIsFollowing(userData.followers?.includes(user.uid) || false);
-                    }
+        setLoading(true);
+        // Real-time listener for user profile to fix following state bug
+        const unsubscribeProfile = onSnapshot(doc(db, 'users', uid), (docSnap) => {
+            if (docSnap.exists()) {
+                const userData = docSnap.data();
+                setProfileUser({ id: docSnap.id, ...userData });
+                if (user) {
+                    setIsFollowing(userData.followers?.includes(user.uid) || false);
                 }
+            } else {
+                setProfileUser(null);
+            }
+            setLoading(false);
+        }, (error) => {
+            console.error("Error fetching profile data:", error);
+            setLoading(false);
+        });
 
-                // Fetch Public Articles by this user
+        const fetchArticles = async () => {
+            try {
                 const q = query(
                     collection(db, 'notes'),
                     where('userId', '==', uid),
@@ -44,18 +52,18 @@ const UserProfile = () => {
                     id: doc.id,
                     ...doc.data()
                 }));
-                // Sort by date manually if needed
                 articles.sort((a, b) => (b.createdAt?.toMillis?.() || 0) - (a.createdAt?.toMillis?.() || 0));
                 setUserArticles(articles);
-
             } catch (error) {
-                console.error("Error fetching profile data:", error);
-            } finally {
-                setLoading(false);
+                console.error("Error fetching articles:", error);
             }
         };
 
-        fetchProfileData();
+        fetchArticles();
+
+        return () => {
+            unsubscribeProfile();
+        };
     }, [uid, user]);
 
     const handleFollowToggle = async () => {
@@ -70,7 +78,6 @@ const UserProfile = () => {
             if (isFollowing) {
                 await updateDoc(currentUserRef, { following: arrayRemove(uid) });
                 await updateDoc(targetUserRef, { followers: arrayRemove(user.uid) });
-                setIsFollowing(false);
             } else {
                 await updateDoc(currentUserRef, { following: arrayUnion(uid) });
                 await updateDoc(targetUserRef, { followers: arrayUnion(user.uid) });
@@ -85,10 +92,16 @@ const UserProfile = () => {
                     createdAt: serverTimestamp(),
                     isRead: false
                 });
-                setIsFollowing(true);
             }
         } catch (error) {
             console.error("Error toggling follow:", error);
+            if (error.code === 'permission-denied') {
+                showAlert({
+                    title: 'Permission Denied',
+                    message: 'Your Firestore security rules do not allow updating another user\'s followers list. Please check your security rules.',
+                    type: 'danger'
+                });
+            }
         } finally {
             setFollowLoading(false);
         }

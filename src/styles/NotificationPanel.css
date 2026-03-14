@@ -1,7 +1,7 @@
 .notification-panel {
-    position: absolute;
-    top: 60px;
-    right: 20px;
+    position: fixed;
+    top: 70px;
+    right: 1.5rem;
     width: 360px;
     background: #1a1a1a;
     border: 1px solid #333;
@@ -153,19 +153,19 @@
 
 @media (max-width: 768px) {
     .notification-panel {
-        width: calc(100vw - 2rem);
+        width: auto;
         right: 1rem;
         left: 1rem;
+        top: 75px;
         max-height: 70vh;
     }
 }
 
 @media (max-width: 480px) {
     .notification-panel {
-        width: calc(100vw - 1rem);
         right: 0.5rem;
         left: 0.5rem;
-        top: 55px;
+        top: 70px;
         border-radius: 10px;
     }
 

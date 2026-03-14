@@ -15,6 +15,7 @@ import {
     serverTimestamp
 } from 'firebase/firestore';
 import { useAuth } from '../context/AuthContext';
+import { useModal } from '../context/ModalContext';
 import Footer from './Footer';
 import '../styles/Article.css';
 import { ThumbsUp, ThumbsDown } from 'lucide-react';
@@ -23,6 +24,7 @@ const Article = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     const { user } = useAuth();
+    const { showAlert } = useModal();
     const [article, setArticle] = useState(null);
     const [loading, setLoading] = useState(true);
 
@@ -92,7 +94,11 @@ const Article = () => {
     }, [id]);
 
     const handleLike = async () => {
-        if (!user) return alert('Please login to like this article');
+        if (!user) return showAlert({
+            title: 'Login Required',
+            message: 'Please login to like this article.',
+            confirmText: 'OK'
+        });
         const docRef = doc(db, 'notes', id);
         const isLiked = likes.includes(user.uid);
 
@@ -113,7 +119,11 @@ const Article = () => {
     };
 
     const handleDislike = async () => {
-        if (!user) return alert('Please login to dislike this article');
+        if (!user) return showAlert({
+            title: 'Login Required',
+            message: 'Please login to dislike this article.',
+            confirmText: 'OK'
+        });
         const docRef = doc(db, 'notes', id);
         const isDisliked = dislikes.includes(user.uid);
 
@@ -135,7 +145,11 @@ const Article = () => {
 
     const handleCommentSubmit = async (e) => {
         e.preventDefault();
-        if (!user) return alert('Please login to comment');
+        if (!user) return showAlert({
+            title: 'Login Required',
+            message: 'Please login to comment.',
+            confirmText: 'OK'
+        });
         if (!newComment.trim()) return;
 
         setCommentLoading(true);

@@ -1,14 +1,16 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { db } from '../firebase';
-import { collection, query, where, getDocs, updateDoc, doc, arrayUnion, arrayRemove, getDoc, addDoc, serverTimestamp } from 'firebase/firestore';
+import { collection, query, where, getDocs, updateDoc, doc, arrayUnion, arrayRemove, getDoc, addDoc, serverTimestamp, onSnapshot } from 'firebase/firestore';
 import { Search, Users, Activity } from 'lucide-react';
+import { useModal } from '../context/ModalContext';
 import UserCard from './UserCard';
 import Loading from './Loading';
 import '../styles/Community.css';
 
 const Community = () => {
     const { user } = useAuth();
+    const { showAlert } = useModal();
     const [searchTerm, setSearchTerm] = useState('');
     const [searchResults, setSearchResults] = useState([]);
     const [allUsers, setAllUsers] = useState([]);
@@ -45,21 +47,19 @@ const Community = () => {
         }
     }, [user]);
 
-    // Fetch current user's following list
+    // Listen for current user's following list in real-time
     useEffect(() => {
-        const fetchFollowing = async () => {
-            if (user?.uid) {
-                try {
-                    const userDoc = await getDoc(doc(db, 'users', user.uid));
-                    if (userDoc.exists()) {
-                        setFollowingIds(userDoc.data().following || []);
-                    }
-                } catch (err) {
-                    console.error("Error fetching following list:", err);
-                }
+        if (!user?.uid) return;
+
+        const unsubscribe = onSnapshot(doc(db, 'users', user.uid), (docSnap) => {
+            if (docSnap.exists()) {
+                setFollowingIds(docSnap.data().following || []);
             }
-        };
-        fetchFollowing();
+        }, (err) => {
+            console.error("Error listening to following list:", err);
+        });
+
+        return () => unsubscribe();
     }, [user]);
 
     // Live search as user types — filter from already-fetched users
@@ -104,11 +104,18 @@ const Community = () => {
                 message: 'started following you',
                 read: false,
                 createdAt: serverTimestamp(),
-                link: '/community'
+                link: `/community`
             });
 
         } catch (err) {
             console.error("Error following user:", err);
+            if (err.code === 'permission-denied') {
+                showAlert({
+                    title: 'Permission Denied',
+                    message: 'Your Firestore security rules do not allow updating another user\'s followers list. Please update your rules or contact the administrator.',
+                    type: 'danger'
+                });
+            }
         }
     };
 
@@ -128,6 +135,13 @@ const Community = () => {
             setFollowingIds(followingIds.filter(id => id !== targetUserId));
         } catch (err) {
             console.error("Error unfollowing user:", err);
+            if (err.code === 'permission-denied') {
+                showAlert({
+                    title: 'Permission Denied',
+                    message: 'Your Firestore security rules do not allow updating another user\'s followers list.',
+                    type: 'danger'
+                });
+            }
         }
     };
 

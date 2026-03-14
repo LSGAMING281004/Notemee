@@ -4,28 +4,35 @@ import { db } from '../firebase';
 import { collection, query, where, getDocs, deleteDoc, doc } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 import { useToast } from '../context/ToastContext';
+import { useModal } from '../context/ModalContext';
 import '../styles/NotesList.css';
 
 const NotesList = () => {
     const { user } = useAuth();
     const navigate = useNavigate();
     const { showToast } = useToast();
+    const { showConfirm } = useModal();
     const [notes, setNotes] = useState([]);
     const [loading, setLoading] = useState(true);
 
     const [searchTerm, setSearchTerm] = useState('');
 
     const handleDelete = async (noteId) => {
-        if (window.confirm('Are you sure you want to delete this note? This action cannot be undone.')) {
-            try {
-                await deleteDoc(doc(db, 'notes', noteId));
-                setNotes(prevNotes => prevNotes.filter(note => note.id !== noteId));
-                showToast('Note deleted successfully', 'success');
-            } catch (error) {
-                console.error('Error deleting note:', error);
-                showToast('Failed to delete note', 'error');
+        showConfirm({
+            title: 'Delete Note',
+            message: 'Are you sure you want to delete this note? This action cannot be undone.',
+            confirmText: 'Delete',
+            onConfirm: async () => {
+                try {
+                    await deleteDoc(doc(db, 'notes', noteId));
+                    setNotes(prevNotes => prevNotes.filter(note => note.id !== noteId));
+                    showToast('Note deleted successfully', 'success');
+                } catch (error) {
+                    console.error('Error deleting note:', error);
+                    showToast('Failed to delete note', 'error');
+                }
             }
-        }
+        });
     };
 
     useEffect(() => {
