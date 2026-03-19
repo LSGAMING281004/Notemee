@@ -1,0 +1,109 @@
+.notfound-container {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #050505;
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+    font-family: 'Inter', sans-serif;
+}
+
+.notfound-content {
+    text-align: center;
+    z-index: 10;
+    padding: 2rem;
+    max-width: 500px;
+}
+
+.notfound-icon-wrapper {
+    position: relative;
+    margin-bottom: 2rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.notfound-icon {
+    color: #4a90e2;
+    opacity: 0.8;
+}
+
+.notfound-404-text {
+    position: absolute;
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: #000;
+    background: #4a90e2;
+    padding: 0.2rem 0.6rem;
+    border-radius: 6px;
+    bottom: -10px;
+    right: -10px;
+}
+
+.notfound-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    letter-spacing: -1px;
+}
+
+.notfound-message {
+    font-size: 1.1rem;
+    color: #888;
+    margin-bottom: 2.5rem;
+    line-height: 1.6;
+}
+
+.notfound-home-btn {
+    background: #4a90e2;
+    color: #fff;
+    border: none;
+    padding: 0.8rem 1.8rem;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 1rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3);
+}
+
+.notfound-home-btn:hover {
+    background: #357abd;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(74, 144, 226, 0.4);
+}
+
+/* Background elements for premium feel */
+.notfound-bg-glow {
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(74, 144, 226, 0.1) 0%, transparent 70%);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+}
+
+.notfound-dots {
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    background-size: 30px 30px;
+    pointer-events: none;
+}
+
+@media (max-width: 480px) {
+    .notfound-title {
+        font-size: 2rem;
+    }
+    
+    .notfound-message {
+        font-size: 1rem;
+    }
+}

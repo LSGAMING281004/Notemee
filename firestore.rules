@@ -23,6 +23,7 @@ service cloud.firestore {
                    (isAuthenticated() && 
                     request.resource.data.diff(resource.data).affectedKeys()
                       .hasOnly(['followers']));
+      allow delete: if isOwner(userId);
     }
 
     // Notes collection

@@ -19,6 +19,7 @@ import UserProfile from './components/UserProfile';
 import Community from './components/Community';
 import Chat from './components/Chat';
 import DashboardLayout from './components/DashboardLayout';
+import NotFound from './components/NotFound';
 import './App.css';
 
 const ProtectedRoute = ({ children }) => {
@@ -108,6 +109,9 @@ function AppRoutes() {
                     </ProtectedRoute>
                 }
             />
+
+            {/* 404 Route */}
+            <Route path="*" element={<NotFound />} />
         </Routes>
     );
 }

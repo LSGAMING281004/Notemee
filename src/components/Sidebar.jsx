@@ -3,16 +3,13 @@ import { NavLink } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { db } from '../firebase';
 import { collection, query, where, onSnapshot } from 'firebase/firestore';
-import NotificationPanel from './NotificationPanel';
 import '../styles/Sidebar.css';
 
-import { LayoutDashboard, NotebookPen, Globe, Info, LogOut, User, Users, MessageSquare, Bell } from 'lucide-react';
+import { LayoutDashboard, NotebookPen, Globe, Info, LogOut, User, Users, MessageSquare } from 'lucide-react';
 
 const Sidebar = () => {
     const { logout, user } = useAuth();
     const [unreadMessages, setUnreadMessages] = useState(0);
-    const [showNotifications, setShowNotifications] = useState(false);
-    const [unreadNotifications, setUnreadNotifications] = useState(0);
 
     // Listen for unread messages
     useEffect(() => {
@@ -31,22 +28,6 @@ const Sidebar = () => {
         return () => unsubscribe();
     }, [user]);
 
-    // Listen for unread notifications count
-    useEffect(() => {
-        if (!user) return;
-
-        const q = query(
-            collection(db, 'notifications'),
-            where('recipientId', '==', user.uid),
-            where('read', '==', false)
-        );
-
-        const unsubscribe = onSnapshot(q, (snapshot) => {
-            setUnreadNotifications(snapshot.size);
-        });
-
-        return () => unsubscribe();
-    }, [user]);
 
     return (
         <aside className="sidebar">
@@ -80,20 +61,6 @@ const Sidebar = () => {
                     </div>
                     <span>Messages</span>
                 </NavLink>
-                <button 
-                    className="nav-item notification-nav-item" 
-                    onClick={() => setShowNotifications(!showNotifications)}
-                    style={{ background: 'transparent', border: 'none', cursor: 'pointer', textAlign: 'left', width: '100%', fontFamily: 'inherit' }}
-                >
-                    <div className="icon-wrapper">
-                        <Bell size={20} className="icon" />
-                        {unreadNotifications > 0 && <span className="sidebar-badge">{unreadNotifications > 9 ? '9+' : unreadNotifications}</span>}
-                    </div>
-                    <span>Notifications</span>
-                </button>
-                {showNotifications && (
-                    <NotificationPanel onClose={() => setShowNotifications(false)} />
-                )}
                 <NavLink to="/profile" className={({ isActive }) => isActive ? 'nav-item active' : 'nav-item'}>
                     <User size={20} className="icon" />
                     <span>Profile</span>

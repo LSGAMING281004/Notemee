@@ -1,8 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
 import { db } from '../firebase';
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { collection, addDoc, serverTimestamp, query, where, onSnapshot } from 'firebase/firestore';
+import { Bell } from 'lucide-react';
+import NotificationPanel from './NotificationPanel';
 import '../styles/Home.css';
 
 const Home = () => {
@@ -12,6 +14,25 @@ const Home = () => {
     const [content, setContent] = useState('');
     const [isPublic, setIsPublic] = useState(false);
     const [submitting, setSubmitting] = useState(false);
+    const [showNotifications, setShowNotifications] = useState(false);
+    const [unreadNotifications, setUnreadNotifications] = useState(0);
+
+    // Listen for unread notifications count
+    useEffect(() => {
+        if (!user) return;
+
+        const q = query(
+            collection(db, 'notifications'),
+            where('recipientId', '==', user.uid),
+            where('read', '==', false)
+        );
+
+        const unsubscribe = onSnapshot(q, (snapshot) => {
+            setUnreadNotifications(snapshot.size);
+        });
+
+        return () => unsubscribe();
+    }, [user]);
 
     const getGreeting = () => {
         const hour = new Date().getHours();
@@ -57,6 +78,25 @@ const Home = () => {
                 <div className="welcome-text">
                     <h1>{getGreeting()}, {user?.displayName?.split(' ')[0] || 'User'}</h1>
                     <p>What are you thinking about today?</p>
+                </div>
+                <div className="header-actions">
+                    <button 
+                        className="notification-btn-premium" 
+                        onClick={() => setShowNotifications(!showNotifications)}
+                        title="Notifications"
+                    >
+                        <Bell size={24} />
+                        {unreadNotifications > 0 && (
+                            <span className="notification-badge-premium">
+                                {unreadNotifications > 9 ? '9+' : unreadNotifications}
+                            </span>
+                        )}
+                    </button>
+                    {showNotifications && (
+                        <div className="dashboard-notification-panel">
+                            <NotificationPanel onClose={() => setShowNotifications(false)} />
+                        </div>
+                    )}
                 </div>
             </header>
 
